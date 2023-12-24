@@ -158,6 +158,8 @@ VERIFICATION_FROM_EMAIL = 'elotmanimouad89@gmail.com'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",  
 ]
+
+
 CORS_ALLOW_METHODS = [
     'DELETE',
     'GET',
