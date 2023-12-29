@@ -16,7 +16,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
-from rest_framework import generics
+from rest_framework import generics,permissions
 from .models import *
 from django.contrib.auth.hashers import make_password
 
@@ -270,17 +270,48 @@ def search_recipes(request):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
-@permission_classes([AllowAny])
-def RecipeCommentCountAPI(request, recipe_id):
-    try:
-        # Retrieve the specific recipe by ID and annotate with comment count
-        recipe = Recipe.objects.annotate(comment_count=models.Count('commentaire')).get(id=recipe_id)
-    except Recipe.DoesNotExist:
-        return Response({"error": "Recipe not found"}, status=404)
+#--------- Recipe comment count
+class RecipeCommentCount(APIView):
+    permission_classes = [permissions.AllowAny]  # You can adjust permissions as needed
 
-    serializer = RecipeSerializer(recipe)
-    return Response(serializer.data)
+    def get(self, request, recipe_id):
+        try:
+            recipe = Recipe.objects.get(id=recipe_id)
+        except Recipe.DoesNotExist:
+            return Response({"error": "Recipe not found"}, status=404)
 
-# Set the queryset attribute for the permission class
-RecipeCommentCountAPI.queryset = Recipe.objects.all()
+        comment_count = recipe.commentaire_set.count()
+        return Response({"recipe_id": recipe_id, "comment_count": comment_count})
+
+
+#--------- Recipe rating count
+class RecipeRatingCount(APIView):
+    permission_classes = [permissions.AllowAny]  # You can adjust permissions as needed
+
+    def get(self, request, recipe_id):
+        try:
+            recipe = Recipe.objects.get(id=recipe_id)
+        except Recipe.DoesNotExist:
+            return Response({"error": "Recipe not found"}, status=404)
+
+        rating_count = recipe.rating_set.count()
+        return Response({"recipe_id": recipe_id, "reting_count": rating_count})
+
+
+
+from django.contrib.auth import update_session_auth_hash
+#--------- Reset Password
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def change_password(request):
+    if request.method == 'POST':
+        serializer = ChangePasswordSerializer(data=request.data)
+        if serializer.is_valid():
+            user = request.user
+            if user.check_password(serializer.data.get('old_password')):
+                user.set_password(serializer.data.get('new_password'))
+                user.save()
+                update_session_auth_hash(request, user)  # To update session after password change
+                return Response({'message': 'Password changed successfully.'}, status=status.HTTP_200_OK)
+            return Response({'error': 'Incorrect old password.'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

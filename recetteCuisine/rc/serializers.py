@@ -9,12 +9,9 @@ class UserSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class CommentaireSerializer(serializers.ModelSerializer):
-    #user = serializers.SerializerMethodField()
     class Meta : 
         model = Commentaire
         fields = '__all__'
-    # def get_user(self, obj):
-    #    return obj.user.username
 
 class RecipeSerializer(serializers.ModelSerializer):
     comment_count = serializers.SerializerMethodField()
@@ -29,3 +26,9 @@ class RatingSerializer(serializers.ModelSerializer):
         model = Rating
         fields = '__all__'
 
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+
+class ResetPasswordEmailSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)

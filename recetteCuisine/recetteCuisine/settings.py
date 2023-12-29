@@ -37,11 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rc',
+    #'rc',
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
     'rest_registration',
+    'django_rest_passwordreset',
+    'rc.apps.RcConfig',
 ]
 
 REST_REGISTRATION = {
@@ -179,5 +181,13 @@ CORS_ALLOW_HEADERS = [
     'x-csrftoken',
     'x-requested-with',
 ]
+
+# Email Backend Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'moadelotmani666@gmail.com'
+EMAIL_HOST_PASSWORD = 'mfsdclvhtwjnuoko'
 
 

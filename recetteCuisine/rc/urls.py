@@ -29,15 +29,16 @@ urlpatterns = [
     path('commentbyid/<int:pk>/', CommentById.as_view(), name='comment-byid'),
     path('recipe_comments/<int:recipe_id>/', RecipeCommentsView.as_view(), name='recipe-comments'),
     path('countComment/', CommentCountView.as_view(), name='comment-count'),
-    path('count_comment_recipe/<int:recipe_id>/', RecipeCommentCountAPI, name='count_comment_recipe'),
+    path('recipescommentcount/<int:recipe_id>/', RecipeCommentCount.as_view(), name='recipe-comment-count'),
 
     # Rating
     path('create_rate/', RatingListCreateView.as_view(), name='create_rate'),
     path('countRating/', RatingCountView.as_view(), name='rating-count'),
+    path('recipesratingcount/<int:recipe_id>/', RecipeRatingCount.as_view(), name='recipe-rating-count'),
 
     # Search
     path('search/', search_recipes, name='search_recipes'),
 
-
-
+    # Password
+    path('change_password/', change_password, name='change_password'),
 ]
