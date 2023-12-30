@@ -157,10 +157,13 @@ REGISTER_EMAIL_VERIFICATION_URL = '/verify-email-registration/'
 # settings.py
 VERIFICATION_FROM_EMAIL = 'elotmanimouad89@gmail.com'
 
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",  
 ]
-
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:8001",  
+]
 
 CORS_ALLOW_METHODS = [
     'DELETE',
@@ -189,5 +192,11 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'moadelotmani666@gmail.com'
 EMAIL_HOST_PASSWORD = 'mfsdclvhtwjnuoko'
+
+from datetime import timedelta
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+}
 
 
