@@ -1,21 +1,18 @@
-# Use an official Python runtime as a parent image
-FROM python:3.9
-
-# Set environment variables
+FROM python:3.11.2
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+WORKDIR /app
 
-# Set the working directory to /app
-WORKDIR /recetteCuisine
+COPY requirements.txt /app/
 
-# Copy the current directory contents into the container at /app
-COPY . /recetteCuisine
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
-# Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+COPY . /app/
 
-# Expose port 8000 for the Django application
-EXPOSE 8080
+EXPOSE 8000
 
-# Start the Django development server
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8080"]
+RUN python manage.py collectstatic --noinput
+
+RUN python manage.py migrate
+
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
