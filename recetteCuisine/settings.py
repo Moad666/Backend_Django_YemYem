@@ -199,4 +199,8 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
+STATIC_ROOT = "/app/static/"
+
+
+
 
