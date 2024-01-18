@@ -1,2 +1,10 @@
 Django
 gunicorn
+djangorestframework
+django-rest-passwordreset
+django-rest-registration
+django-cors-headers
+djangorestframework-simplejwt
+mysqlclient
+
+
