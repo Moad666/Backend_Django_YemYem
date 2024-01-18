@@ -201,6 +201,15 @@ SIMPLE_JWT = {
 
 STATIC_ROOT = "/app/static/"
 
-
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'essabar',
+        'USER': 'moad',
+        'PASSWORD': 'moadmoad',
+        'HOST': '192.168.116.216',
+        'PORT': '3306'
+    }
+}
 
 
